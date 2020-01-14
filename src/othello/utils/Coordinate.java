@@ -1,6 +1,6 @@
 package othello.utils;
 
-public class Coordinate implements  Location{
+public class Coordinate {
 
     public int x;
     public int y;
@@ -8,5 +8,9 @@ public class Coordinate implements  Location{
     public Coordinate(int x, int y){
         this.x = x;
         this.y = y;
+    }
+
+    public Coordinate shift(Arrow arrow){
+        return new Coordinate(this.x + arrow.x, this.y + arrow.y);
     }
 }

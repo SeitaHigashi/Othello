@@ -1,6 +1,7 @@
 package othello;
 
 
+import othello.utils.Arrow;
 import othello.utils.Coordinate;
 
 public class Disk {
@@ -11,15 +12,30 @@ public class Disk {
 
 	public final Coordinate coordinate;
 
-	public Disk(Coordinate coordinate,int state){
+	public final Board board;
+
+	public Disk(Coordinate coordinate, int state, Board board){
 		this.coordinate = coordinate;
 		this.state = state;
+		this.board = board;
 	}
 
 	public void turn(){
 		this.state = - this.state;
 	}
-	public void maybeTurn(){
-
+	public boolean maybeTurn(Arrow arrow){
+		try{
+			Coordinate shiftCoordinate = coordinate.shift(arrow);
+			Disk nextDisk = this.board.getDisk(shiftCoordinate);
+			if(nextDisk.state != this.state)
+				return true;
+			Boolean canTurn = nextDisk.maybeTurn(arrow);
+			if(canTurn)
+				this.turn();
+			return canTurn;
+		}catch(NullPointerException e){
+			System.out.println("駒ない");
+			return false;
+		}
 	}
 }

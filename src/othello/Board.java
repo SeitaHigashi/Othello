@@ -9,8 +9,8 @@ public class Board {
 	public Board(){
 	}
 
-	public void setDisk(Coordinate coordinate){
-		board[coordinate.x][coordinate.y] = new Disk(coordinate);
+	public void setDisk(Coordinate coordinate, int state){
+		board[coordinate.x][coordinate.y] = new Disk(coordinate, state, this);
 	}
 
 	public Disk getDisk(Coordinate coordinate) {

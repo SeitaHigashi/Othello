@@ -1,6 +1,6 @@
 package othello.utils;
 
-public enum Arrow implements Location {
+public enum Arrow {
     Up(0, 1),
     UpperRight(1, 1),
     Right(1, 0),
@@ -10,8 +10,8 @@ public enum Arrow implements Location {
     Left(-1, 0),
     UpperLeft(-1, 1);
 
-    int x;
-    int y;
+    public int x;
+    public int y;
 
     Arrow(int x, int y){
         this.x = x;
