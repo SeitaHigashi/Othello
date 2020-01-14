@@ -27,13 +27,15 @@ public class Disk {
 		try{
 			Coordinate shiftCoordinate = coordinate.shift(arrow);
 			Disk nextDisk = this.board.getDisk(shiftCoordinate);
-			if(nextDisk.state != this.state)
+			if(nextDisk.state != this.state){
+			    this.turn();
 				return true;
+			}
 			Boolean canTurn = nextDisk.maybeTurn(arrow);
 			if(canTurn)
 				this.turn();
 			return canTurn;
-		}catch(NullPointerException e){
+		}catch(Exception e){
 			System.out.println("駒ない");
 			return false;
 		}
