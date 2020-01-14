@@ -14,11 +14,14 @@ public class Board {
 		Disk newDisk = new Disk(coordinate, state, this);
 		board[coordinate.x][coordinate.y] = newDisk;
 		for (Arrow arrow: Arrow.values()) {
-			Coordinate shiftCoordinate = coordinate.shift(arrow);
-			Disk arrowDisk = this.getDisk(shiftCoordinate);
-			if(arrowDisk == null)continue;
-			if(arrowDisk.state == newDisk.state)continue;
-			arrowDisk.maybeTurn(arrow);
+			try{
+				Coordinate shiftCoordinate = coordinate.shift(arrow);
+				Disk arrowDisk = this.getDisk(shiftCoordinate);
+				if(arrowDisk.state == newDisk.state)continue;
+				arrowDisk.maybeTurn(arrow);
+			}catch(Exception e){
+				continue;
+			}
 		}
 	}
 

@@ -36,7 +36,6 @@ public class Disk {
 				this.turn();
 			return canTurn;
 		}catch(Exception e){
-			System.out.println("駒ない");
 			return false;
 		}
 	}
