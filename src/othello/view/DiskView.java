@@ -35,5 +35,4 @@ public class DiskView extends JButton {
                 Color.BLACK:
                 Color.WHITE);
     }
-
 }

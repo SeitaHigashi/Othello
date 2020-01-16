@@ -96,7 +96,10 @@ public class View extends JFrame implements Runnable, MouseListener, WindowListe
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        DiskView diskView = (DiskView) e.getSource();
+        if(this.board.canPut(diskView.coordinate, board.getTurn())){
 
+        }
     }
 
     @Override

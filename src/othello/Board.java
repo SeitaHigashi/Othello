@@ -60,6 +60,8 @@ public class Board {
 	}
 
 	public boolean canPut(Coordinate coordinate, int state){
+		if(getDisk(coordinate) != null)
+		    return false;
 	    for(Arrow arrow:Arrow.values()){
 	    	try{
 	    		Coordinate shiftCoordinate = coordinate.shift(arrow);
