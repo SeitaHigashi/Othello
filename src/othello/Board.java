@@ -1,6 +1,7 @@
 package othello;
 
 
+import othello.exception.CantPutException;
 import othello.utils.Arrow;
 import othello.utils.Coordinate;
 
@@ -10,14 +11,17 @@ public class Board {
 	private int turn = Disk.BLACK;
 
 	public Board(){
-		setDisk(new Coordinate(3, 4));
-		setDisk(new Coordinate(3, 3));
-		setDisk(new Coordinate(4, 3));
-		setDisk(new Coordinate(4, 4));
+	    board[3][3] = new Disk(new Coordinate(3, 3),Disk.WHITE, this);
+		board[4][4] = new Disk(new Coordinate(4, 4),Disk.WHITE, this);
+		board[3][4] = new Disk(new Coordinate(3, 4),Disk.BLACK, this);
+		board[4][3] = new Disk(new Coordinate(4, 3),Disk.BLACK, this);
+
 	}
 
-	public Disk setDisk(Coordinate coordinate){
+	public Disk setDisk(Coordinate coordinate) throws CantPutException {
 		Disk newDisk = new Disk(coordinate, turn, this);
+		if(!canPut(coordinate, turn))
+			throw new CantPutException();
 		board[coordinate.x][coordinate.y] = newDisk;
 		for (Arrow arrow: Arrow.values()) {
 			try{
@@ -53,5 +57,24 @@ public class Board {
 			}
 			System.out.println("");
 		}
+	}
+
+	public boolean canPut(Coordinate coordinate, int state){
+	    for(Arrow arrow:Arrow.values()){
+	    	try{
+	    		Coordinate shiftCoordinate = coordinate.shift(arrow);
+	    		Disk disk = this.getDisk(shiftCoordinate);
+	    		if(disk.state != state)
+	    		    while(true){
+	    		    	shiftCoordinate = shiftCoordinate.shift(arrow);
+	    		    	disk = this.getDisk(shiftCoordinate);
+	    		    	if(disk.state == state)
+							return true;
+					}
+			}catch (Exception e){
+	    	    continue;
+			}
+		}
+		return false;
 	}
 }

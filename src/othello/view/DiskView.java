@@ -10,7 +10,7 @@ public class DiskView extends JButton {
 
     private Disk disk;
 
-    public Coordinate coordinate;
+    public final Coordinate coordinate;
 
     public DiskView(Coordinate coordinate){
         super();

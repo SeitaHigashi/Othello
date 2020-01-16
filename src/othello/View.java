@@ -1,5 +1,6 @@
 package othello;
 
+import othello.exception.CantPutException;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
 
@@ -8,8 +9,10 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class View extends JFrame implements Runnable, MouseListener {
+public class View extends JFrame implements Runnable, MouseListener, WindowListener {
 
     public Board board;
 
@@ -72,9 +75,13 @@ public class View extends JFrame implements Runnable, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         DiskView diskView = (DiskView) e.getSource();
-        Disk disk = this.board.setDisk(diskView.coordinate);
-        diskView.setDisk(disk);
-        update();
+        try{
+            Disk disk = this.board.setDisk(diskView.coordinate);
+            diskView.setDisk(disk);
+            update();
+        } catch (CantPutException ex) {
+            System.out.println("置けないよ");
+        }
     }
 
     @Override
@@ -94,6 +101,41 @@ public class View extends JFrame implements Runnable, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        System.exit(1);
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
 
     }
 }
