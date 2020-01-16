@@ -7,11 +7,17 @@ import othello.utils.Coordinate;
 public class Board {
 	private Disk[][] board = new Disk[8][8];
 
+	private int turn = Disk.BLACK;
+
 	public Board(){
+		setDisk(new Coordinate(3, 4));
+		setDisk(new Coordinate(3, 3));
+		setDisk(new Coordinate(4, 3));
+		setDisk(new Coordinate(4, 4));
 	}
 
-	public void setDisk(Coordinate coordinate, int state){
-		Disk newDisk = new Disk(coordinate, state, this);
+	public Disk setDisk(Coordinate coordinate){
+		Disk newDisk = new Disk(coordinate, turn, this);
 		board[coordinate.x][coordinate.y] = newDisk;
 		for (Arrow arrow: Arrow.values()) {
 			try{
@@ -23,6 +29,12 @@ public class Board {
 				continue;
 			}
 		}
+		turn *= -1;
+		return newDisk;
+	}
+
+	public int getTurn(){
+		return this.turn;
 	}
 
 	public Disk getDisk(Coordinate coordinate) {
