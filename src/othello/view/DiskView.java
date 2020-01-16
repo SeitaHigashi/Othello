@@ -35,4 +35,13 @@ public class DiskView extends JButton {
                 Color.BLACK:
                 Color.WHITE);
     }
+
+    public void mouseEntered(){
+        setText("●");
+        setForeground(Color.ORANGE);
+    }
+
+    public void mouseExited(){
+        setText("");
+    }
 }
