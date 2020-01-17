@@ -35,8 +35,8 @@ public class View extends JFrame implements Runnable, MouseListener, WindowListe
         setLayout(new BorderLayout());
         add("Center", initOthelloBoard());
 
-
         setVisible(true);
+        update();
     }
 
     private JPanel initOthelloBoard(){

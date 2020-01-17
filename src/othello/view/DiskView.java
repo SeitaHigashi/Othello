@@ -20,6 +20,7 @@ public class DiskView extends JButton {
 
     private void init(){
         setBackground(Color.GREEN);
+        setMargin(new Insets(0, 0, 0, 0));
     }
 
     public void setDisk(Disk disk){
@@ -31,6 +32,7 @@ public class DiskView extends JButton {
     }
 
     public void update() throws NullPointerException{
+        setFont(new Font("Arial", Font.PLAIN, getHeight()));
         setForeground((this.disk.state == Disk.BLACK)?
                 Color.BLACK:
                 Color.WHITE);
