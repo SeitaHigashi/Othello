@@ -5,6 +5,7 @@ import othello.utils.Coordinate;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 
 public class DiskView extends JButton {
 
@@ -46,4 +47,5 @@ public class DiskView extends JButton {
     public void mouseExited(){
         setText("");
     }
+
 }

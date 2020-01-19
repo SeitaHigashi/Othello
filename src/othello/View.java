@@ -1,6 +1,7 @@
 package othello;
 
 import othello.exception.CantPutException;
+import othello.player.Human;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
 
@@ -12,7 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class View extends JFrame implements Runnable, MouseListener, WindowListener {
+public class View extends JFrame implements Runnable, WindowListener {
 
     public Board board;
 
@@ -45,7 +46,7 @@ public class View extends JFrame implements Runnable, MouseListener, WindowListe
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 diskViews[j][i] = new DiskView(new Coordinate(j, i));
-                diskViews[j][i].addMouseListener(this);
+                diskViews[j][i].addMouseListener(new Human(this.board));
                 othelloBoard.add(diskViews[j][i]);
                 Disk disk = this.board.getDisk(new Coordinate(j, i));
                 if(disk != null)
@@ -69,44 +70,6 @@ public class View extends JFrame implements Runnable, MouseListener, WindowListe
 
     @Override
     public void run() {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        DiskView diskView = (DiskView) e.getSource();
-        try{
-            Disk disk = this.board.setDisk(diskView.coordinate);
-            diskView.setDisk(disk);
-            update();
-        } catch (CantPutException ex) {
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        DiskView diskView = (DiskView) e.getSource();
-        if(this.board.canPut(diskView.coordinate, board.getTurn())){
-            diskView.mouseEntered();
-        }
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        DiskView diskView = (DiskView) e.getSource();
-        if(this.board.canPut(diskView.coordinate, board.getTurn())){
-            diskView.mouseExited();
-        }
 
     }
 
