@@ -10,16 +10,16 @@ public class Test {
         board.printBoard();
 
         try {
-            board.setDisk(new Coordinate(5, 4));
+            board.setDisk(new Coordinate(5, 4), Disk.BLACK);
             board.printBoard();
 
-            board.setDisk(new Coordinate(5, 3));
+            board.setDisk(new Coordinate(5, 3), Disk.WHITE);
             board.printBoard();
 
-            board.setDisk(new Coordinate(3, 2));
+            board.setDisk(new Coordinate(3, 2), Disk.BLACK);
             board.printBoard();
 
-            board.setDisk(new Coordinate(2, 3));
+            board.setDisk(new Coordinate(2, 3), Disk.WHITE);
             board.printBoard();
 
             board.reset();

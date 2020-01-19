@@ -1,12 +1,13 @@
 package othello.player;
 
 import othello.Board;
+import othello.Othello;
 
 import java.awt.event.MouseListener;
 
 public abstract class Player implements MouseListener {
-    protected Board board;
-    public Player(Board board){
-        this.board = board;
+    protected Othello othello;
+    public Player(Othello othello){
+        this.othello = othello;
     }
 }

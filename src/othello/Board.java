@@ -8,8 +8,6 @@ import othello.utils.Coordinate;
 public class Board {
 	private Disk[][] board = new Disk[8][8];
 
-	private int turn = Disk.BLACK;
-
 	private Othello othello = null;
 
 	public Board(){
@@ -28,7 +26,7 @@ public class Board {
 		this.othello = othello;
 	}
 
-	public Disk setDisk(Coordinate coordinate) throws CantPutException {
+	public Disk setDisk(Coordinate coordinate, int turn) throws CantPutException {
 		Disk newDisk = new Disk(coordinate, turn, this);
 		if(!canPut(coordinate, turn))
 			throw new CantPutException();
@@ -43,13 +41,8 @@ public class Board {
 				continue;
 			}
 		}
-		turn *= -1;
 		this.othello.update();
 		return newDisk;
-	}
-
-	public int getTurn(){
-		return this.turn;
 	}
 
 	public Disk getDisk(Coordinate coordinate) {

@@ -1,22 +1,23 @@
 package othello.player;
 
-import othello.Board;
 import othello.Disk;
+import othello.Othello;
 import othello.exception.CantPutException;
+import othello.utils.Coordinate;
 import othello.view.DiskView;
 
 import java.awt.event.MouseEvent;
 
 public class Human extends Player{
-    public Human(Board board) {
-        super(board);
+    public Human(Othello othello) {
+        super(othello);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         DiskView diskView = (DiskView)e.getSource();
         try {
-            Disk disk = this.board.setDisk(diskView.coordinate);
+            Disk disk = this.othello.setDisk(diskView.coordinate);
             diskView.setDisk(disk);
         } catch (CantPutException ex) {
         }
@@ -35,7 +36,7 @@ public class Human extends Player{
     @Override
     public void mouseEntered(MouseEvent e) {
         DiskView diskView = (DiskView)e.getSource();
-        if(this.board.canPut(diskView.coordinate, this.board.getTurn())){
+        if(this.othello.board.canPut(diskView.coordinate, this.othello.getTurn())){
             diskView.mouseEntered();
         }
     }
@@ -43,7 +44,7 @@ public class Human extends Player{
     @Override
     public void mouseExited(MouseEvent e) {
         DiskView diskView = (DiskView)e.getSource();
-        if(this.board.canPut(diskView.coordinate, this.board.getTurn())){
+        if(this.othello.board.canPut(diskView.coordinate, this.othello.getTurn())){
             diskView.mouseExited();
         }
     }

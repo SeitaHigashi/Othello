@@ -1,5 +1,6 @@
 package othello;
 
+import othello.exception.CantPutException;
 import othello.player.Human;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
@@ -16,10 +17,16 @@ public class Othello extends JFrame implements  WindowListener {
 
     public DiskView[][] diskViews = new DiskView[8][8];
 
+    private int turn = Disk.BLACK;
+
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
         init();
+    }
+
+    public static void main(String[] args){
+        new Othello();
     }
 
     private void init(){
@@ -38,17 +45,13 @@ public class Othello extends JFrame implements  WindowListener {
         update();
     }
 
-    public static void main(String[] args){
-        new Othello();
-    }
-
     private JPanel initOthelloBoard(){
         JPanel othelloBoard = new JPanel();
         othelloBoard.setLayout(new GridLayout( 8, 8));
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 diskViews[j][i] = new DiskView(new Coordinate(j, i));
-                diskViews[j][i].addMouseListener(new Human(this.board));
+                diskViews[j][i].addMouseListener(new Human(this));
                 othelloBoard.add(diskViews[j][i]);
                 Disk disk = this.board.getDisk(new Coordinate(j, i));
                 if(disk != null)
@@ -56,6 +59,20 @@ public class Othello extends JFrame implements  WindowListener {
             }
         }
         return othelloBoard;
+    }
+
+    public int getTurn(){
+        return this.turn;
+    }
+
+    public Disk setDisk(Coordinate coordinate) throws CantPutException {
+        Disk disk = this.board.setDisk(coordinate, this.turn);
+        nextTurn();
+        return disk;
+    }
+
+    public void nextTurn(){
+        turn *= -1;
     }
 
     public void update(){
