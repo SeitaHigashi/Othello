@@ -80,7 +80,6 @@ public class View extends JFrame implements Runnable, MouseListener, WindowListe
             diskView.setDisk(disk);
             update();
         } catch (CantPutException ex) {
-            System.out.println("置けないよ");
         }
     }
 

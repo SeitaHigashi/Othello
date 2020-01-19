@@ -23,6 +23,7 @@ public class Disk {
 	public void turn(){
 		this.state = - this.state;
 	}
+
 	public boolean maybeTurn(Arrow arrow){
 		try{
 			Coordinate shiftCoordinate = coordinate.shift(arrow);

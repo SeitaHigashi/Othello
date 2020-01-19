@@ -32,7 +32,7 @@ public class DiskView extends JButton {
     }
 
     public void update() throws NullPointerException{
-        setFont(new Font("Arial", Font.PLAIN, getHeight()));
+        setFont(new Font("Arial", Font.PLAIN, (int)(getHeight()*1.5)));
         setForeground((this.disk.state == Disk.BLACK)?
                 Color.BLACK:
                 Color.WHITE);

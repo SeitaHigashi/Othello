@@ -9,7 +9,6 @@ public class Othello {
 	public Othello(){
 		this.board = new Board();
 
-
 		this.view = new View(this.board);
 	}
 

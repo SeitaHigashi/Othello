@@ -11,11 +11,15 @@ public class Board {
 	private int turn = Disk.BLACK;
 
 	public Board(){
-	    board[3][3] = new Disk(new Coordinate(3, 3),Disk.WHITE, this);
-		board[4][4] = new Disk(new Coordinate(4, 4),Disk.WHITE, this);
-		board[3][4] = new Disk(new Coordinate(3, 4),Disk.BLACK, this);
-		board[4][3] = new Disk(new Coordinate(4, 3),Disk.BLACK, this);
+		init();
+	}
 
+	private void init(){
+	    this.board = new Disk[8][8];
+		this.board[3][3] = new Disk(new Coordinate(3, 3),Disk.WHITE, this);
+		this.board[4][4] = new Disk(new Coordinate(4, 4),Disk.WHITE, this);
+		this.board[3][4] = new Disk(new Coordinate(3, 4),Disk.BLACK, this);
+		this.board[4][3] = new Disk(new Coordinate(4, 3),Disk.BLACK, this);
 	}
 
 	public Disk setDisk(Coordinate coordinate) throws CantPutException {
@@ -55,7 +59,7 @@ public class Board {
 				else
 					System.out.print("白");
 			}
-			System.out.println("");
+			System.out.println();
 		}
 	}
 
@@ -79,4 +83,9 @@ public class Board {
 		}
 		return false;
 	}
+
+	public void reset(){
+		init();
+	}
+
 }

@@ -21,6 +21,10 @@ public class Test {
 
             board.setDisk(new Coordinate(2, 3));
             board.printBoard();
+
+            board.reset();
+            board.printBoard();
+
         } catch (CantPutException e) {
             e.printStackTrace();
         }
