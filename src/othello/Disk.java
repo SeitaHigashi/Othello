@@ -32,7 +32,7 @@ public class Disk {
 			    this.turn();
 				return true;
 			}
-			Boolean canTurn = nextDisk.maybeTurn(arrow);
+			boolean canTurn = nextDisk.maybeTurn(arrow);
 			if(canTurn)
 				this.turn();
 			return canTurn;

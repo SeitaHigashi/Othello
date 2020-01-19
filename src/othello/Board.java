@@ -10,7 +10,7 @@ public class Board {
 
 	private int turn = Disk.BLACK;
 
-	private View view = null;
+	private Othello othello = null;
 
 	public Board(){
 		init();
@@ -24,8 +24,8 @@ public class Board {
 		this.board[4][3] = new Disk(new Coordinate(4, 3),Disk.BLACK, this);
 	}
 
-	public void setView(View view){
-		this.view = view;
+	public void setOthello(Othello othello){
+		this.othello = othello;
 	}
 
 	public Disk setDisk(Coordinate coordinate) throws CantPutException {
@@ -44,7 +44,7 @@ public class Board {
 			}
 		}
 		turn *= -1;
-		this.view.update();
+		this.othello.update();
 		return newDisk;
 	}
 
