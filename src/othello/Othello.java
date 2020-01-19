@@ -1,7 +1,9 @@
 package othello;
 
 import othello.exception.CantPutException;
+import othello.player.DemoAI;
 import othello.player.Human;
+import othello.player.Player;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
 
@@ -19,9 +21,18 @@ public class Othello extends JFrame implements  WindowListener {
 
     private int turn = Disk.BLACK;
 
+    private Player blackPlayer;
+
+    private Player whitePlayer;
+
+    private Player nowPlayer;
+
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
+        this.blackPlayer = new Human(this);
+        this.whitePlayer = new Human(this);
+        //this.whitePlayer = new DemoAI(this);
         init();
     }
 
@@ -48,10 +59,11 @@ public class Othello extends JFrame implements  WindowListener {
     private JPanel initOthelloBoard(){
         JPanel othelloBoard = new JPanel();
         othelloBoard.setLayout(new GridLayout( 8, 8));
+        this.nowPlayer = this.blackPlayer;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 diskViews[j][i] = new DiskView(new Coordinate(j, i));
-                diskViews[j][i].addMouseListener(new Human(this));
+                diskViews[j][i].addMouseListener(this.blackPlayer);
                 othelloBoard.add(diskViews[j][i]);
                 Disk disk = this.board.getDisk(new Coordinate(j, i));
                 if(disk != null)
@@ -73,6 +85,13 @@ public class Othello extends JFrame implements  WindowListener {
 
     public void nextTurn(){
         turn *= -1;
+        for(DiskView[] diskViews: this.diskViews){
+            for(DiskView diskView:diskViews){
+                diskView.removeMouseListener(nowPlayer);
+                nowPlayer = (nowPlayer == blackPlayer)?whitePlayer:blackPlayer;
+                diskView.addMouseListener(nowPlayer);
+            }
+        }
     }
 
     public void update(){
@@ -86,6 +105,7 @@ public class Othello extends JFrame implements  WindowListener {
             }
         }
     }
+
 
     @Override
     public void windowOpened(WindowEvent e) {
