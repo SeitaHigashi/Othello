@@ -30,8 +30,8 @@ public class Othello extends JFrame implements  WindowListener {
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
-        this.blackPlayer = new Human(this);
-        //this.blackPlayer = new DemoAI(this);
+        //this.blackPlayer = new Human(this);
+        this.blackPlayer = new DemoAI(this);
         this.whitePlayer = new DemoAI(this);
         init();
     }
@@ -97,7 +97,12 @@ public class Othello extends JFrame implements  WindowListener {
                 diskView.addMouseListener(nowPlayer);
             }
         }
-        nowPlayer.battle();
+        if(this.board.canPut(this.turn)){
+            nowPlayer.battle();
+        }
+        else{
+            nextTurn();
+        }
     }
 
     public void update(){

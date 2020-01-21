@@ -1,6 +1,5 @@
 package othello.player;
 
-import othello.Disk;
 import othello.Othello;
 import othello.exception.CantPutException;
 import othello.utils.Coordinate;

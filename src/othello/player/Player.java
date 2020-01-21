@@ -1,6 +1,5 @@
 package othello.player;
 
-import othello.Board;
 import othello.Othello;
 
 import java.awt.event.MouseListener;

@@ -68,7 +68,14 @@ public class Board {
 	}
 
 	public boolean canPut(int state){
-		
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				Coordinate coordinate = new Coordinate(i , j);
+				if(canPut(coordinate, state))
+					return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean canPut(Coordinate coordinate, int state){
