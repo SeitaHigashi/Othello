@@ -112,7 +112,6 @@ public class Othello extends JFrame implements  WindowListener {
         }
     }
 
-
     @Override
     public void windowOpened(WindowEvent e) {
 

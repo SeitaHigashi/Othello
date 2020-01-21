@@ -19,7 +19,6 @@ public class DemoAI extends Player {
                 Coordinate coordinate = new Coordinate(j, i);
                 if(this.othello.board.canPut(coordinate, this.othello.getTurn())){
                     try {
-                        System.out.println(coordinate.toString());
                         this.othello.setDisk(coordinate);
                         this.othello.update();
                         this.othello.nextTurn();
