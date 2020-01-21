@@ -13,4 +13,9 @@ public class Coordinate {
     public Coordinate shift(Arrow arrow){
         return new Coordinate(this.x + arrow.x, this.y + arrow.y);
     }
+
+    @Override
+    public String toString(){
+        return "("+this.x+","+this.y+")";
+    }
 }

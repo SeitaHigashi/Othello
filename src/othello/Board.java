@@ -41,12 +41,15 @@ public class Board {
 				continue;
 			}
 		}
-		this.othello.update();
 		return newDisk;
 	}
 
 	public Disk getDisk(Coordinate coordinate) {
 		return board[coordinate.x][coordinate.y];
+	}
+
+	public Disk[][] getBoard(){
+		return board;
 	}
 
 	public void printBoard(){

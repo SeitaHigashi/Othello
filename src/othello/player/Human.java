@@ -3,7 +3,6 @@ package othello.player;
 import othello.Disk;
 import othello.Othello;
 import othello.exception.CantPutException;
-import othello.utils.Coordinate;
 import othello.view.DiskView;
 
 import java.awt.event.MouseEvent;
@@ -14,11 +13,18 @@ public class Human extends Player{
     }
 
     @Override
+    public void battle() {
+
+    }
+
+    @Override
     public void mouseClicked(MouseEvent e) {
         DiskView diskView = (DiskView)e.getSource();
         try {
             Disk disk = this.othello.setDisk(diskView.coordinate);
             diskView.setDisk(disk);
+            this.othello.update();
+            this.othello.nextTurn();
         } catch (CantPutException ex) {
         }
     }
