@@ -3,6 +3,7 @@ package othello;
 import othello.exception.CantPutException;
 import othello.player.DemoAI;
 import othello.player.Human;
+import othello.player.LANGame;
 import othello.player.Player;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
@@ -33,9 +34,10 @@ public class Othello extends JFrame implements  WindowListener {
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
-        //this.blackPlayer = new Human(this);
-        this.blackPlayer = new DemoAI(this);
-        this.whitePlayer = new DemoAI(this);
+        this.blackPlayer = new LANGame(this, Disk.BLACK);
+        //this.blackPlayer = new Human(this, Disk.BLACK);
+        //this.blackPlayer = new DemoAI(this, Disk.BLACK);
+        this.whitePlayer = new DemoAI(this, Disk.WHITE);
         init();
     }
 

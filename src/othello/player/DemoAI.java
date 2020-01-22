@@ -7,8 +7,8 @@ import othello.utils.Coordinate;
 import java.awt.event.MouseEvent;
 
 public class DemoAI extends Player {
-    public DemoAI(Othello othello) {
-        super(othello);
+    public DemoAI(Othello othello, int color) {
+        super(othello, color);
     }
 
     @Override

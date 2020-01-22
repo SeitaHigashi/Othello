@@ -8,8 +8,8 @@ import othello.view.DiskView;
 import java.awt.event.MouseEvent;
 
 public class Human extends Player{
-    public Human(Othello othello) {
-        super(othello);
+    public Human(Othello othello, int color) {
+        super(othello, color);
     }
 
     @Override
