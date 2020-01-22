@@ -19,16 +19,23 @@ public class DiskView extends JButton {
     }
 
     private void init(){
+        setText("");
         setBackground(Color.GREEN);
         setMargin(new Insets(0, 0, 0, 0));
     }
 
-    public void setDisk(Disk disk){
+    public void setDisk(Disk disk) throws NullPointerException{
+        if(disk == null)throw new NullPointerException();
         this.disk = disk;
         setText("●");
         setForeground((this.disk.state == Disk.BLACK)?
                 Color.BLACK:
                 Color.WHITE);
+    }
+
+    public void removeDisk(){
+        this.disk = null;
+        init();
     }
 
     public void update() throws NullPointerException{

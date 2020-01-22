@@ -6,6 +6,7 @@ import othello.player.Human;
 import othello.player.Player;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
+import othello.view.ResetButton;
 
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -19,6 +20,8 @@ public class Othello extends JFrame implements  WindowListener {
 
     public DiskView[][] diskViews = new DiskView[8][8];
 
+    private JPanel othelloBoard;
+
     private int turn = Disk.BLACK;
 
     private Player blackPlayer;
@@ -30,8 +33,8 @@ public class Othello extends JFrame implements  WindowListener {
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
-        //this.blackPlayer = new Human(this);
-        this.blackPlayer = new DemoAI(this);
+        this.blackPlayer = new Human(this);
+        //this.blackPlayer = new DemoAI(this);
         this.whitePlayer = new DemoAI(this);
         init();
     }
@@ -50,14 +53,15 @@ public class Othello extends JFrame implements  WindowListener {
         setSize(400, 400);
         setTitle("Othello");
         setLayout(new BorderLayout());
-        add("Center", initOthelloBoard());
+        add("South", new ResetButton(this));
+        initOthelloBoard();
 
         setVisible(true);
         update();
         this.blackPlayer.battle();
     }
 
-    private JPanel initOthelloBoard(){
+    private void initOthelloBoard(){
         JPanel othelloBoard = new JPanel();
         othelloBoard.setLayout(new GridLayout( 8, 8));
         this.nowPlayer = this.blackPlayer;
@@ -71,7 +75,8 @@ public class Othello extends JFrame implements  WindowListener {
                     diskViews[j][i].setDisk(disk);
             }
         }
-        return othelloBoard;
+        this.othelloBoard = othelloBoard;
+        add("Center", othelloBoard);
     }
 
     public int getTurn(){
@@ -115,6 +120,20 @@ public class Othello extends JFrame implements  WindowListener {
                 }
             }
         }
+    }
+
+    public void reset(){
+        this.board.reset();
+        for(DiskView[] diskViews: diskViews){
+            for(DiskView diskView: diskViews){
+                diskView.removeDisk();
+                try{
+                    diskView.setDisk(this.board.getDisk(diskView.coordinate));
+                }catch (NullPointerException e){
+                }
+            }
+        }
+        update();
     }
 
     @Override
