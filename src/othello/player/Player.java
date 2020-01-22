@@ -11,4 +11,6 @@ public abstract class Player implements MouseListener {
     }
 
     public abstract void battle();
+
+    public abstract void reset();
 }

@@ -33,8 +33,8 @@ public class Othello extends JFrame implements  WindowListener {
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
-        this.blackPlayer = new Human(this);
-        //this.blackPlayer = new DemoAI(this);
+        //this.blackPlayer = new Human(this);
+        this.blackPlayer = new DemoAI(this);
         this.whitePlayer = new DemoAI(this);
         init();
     }
@@ -102,12 +102,17 @@ public class Othello extends JFrame implements  WindowListener {
                 diskView.addMouseListener(nowPlayer);
             }
         }
-        if(this.board.canPut(this.turn)){
+        boolean playerCanPut = this.board.canPut(this.turn);
+        boolean enemyCanPut = this.board.canPut(-this.turn);
+        if(!playerCanPut && !enemyCanPut){
+            System.out.println("finished");
+            return;
+        }
+        if(playerCanPut)
             nowPlayer.battle();
-        }
-        else{
+        else
             nextTurn();
-        }
+        return;
     }
 
     public void update(){
@@ -124,6 +129,8 @@ public class Othello extends JFrame implements  WindowListener {
 
     public void reset(){
         this.board.reset();
+        this.blackPlayer.reset();
+        this.whitePlayer.reset();
         for(DiskView[] diskViews: diskViews){
             for(DiskView diskView: diskViews){
                 diskView.removeDisk();

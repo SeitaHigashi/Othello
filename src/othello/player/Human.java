@@ -18,6 +18,11 @@ public class Human extends Player{
     }
 
     @Override
+    public void reset() {
+
+    }
+
+    @Override
     public void mouseClicked(MouseEvent e) {
         DiskView diskView = (DiskView)e.getSource();
         try {

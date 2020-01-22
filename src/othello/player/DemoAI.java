@@ -30,6 +30,11 @@ public class DemoAI extends Player {
     }
 
     @Override
+    public void reset() {
+
+    }
+
+    @Override
     public void mouseClicked(MouseEvent e) {
 
     }
