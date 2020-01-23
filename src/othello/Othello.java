@@ -34,10 +34,11 @@ public class Othello extends JFrame implements  WindowListener {
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
-        this.blackPlayer = new LANGame(this, Disk.BLACK);
         //this.blackPlayer = new Human(this, Disk.BLACK);
         //this.blackPlayer = new DemoAI(this, Disk.BLACK);
-        this.whitePlayer = new DemoAI(this, Disk.WHITE);
+        //this.whitePlayer = new DemoAI(this, Disk.WHITE);
+        this.blackPlayer = new LANGame(this, Disk.BLACK);
+        this.whitePlayer = new LANGame(this, Disk.WHITE);
         init();
     }
 
