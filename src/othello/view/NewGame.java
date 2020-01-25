@@ -39,9 +39,9 @@ public class NewGame extends JFrame implements ActionListener {
 
         initComboBox();
 
-        add(new Label("黒", Label.CENTER));
+        add(new Label("黒", JLabel.CENTER));
         add(this.blackBox);
-        add(new Label("白", Label.CENTER));
+        add(new Label("白", JLabel.CENTER));
         add(this.whiteBox);
         add(new JPanel());
         add(this.startButton);
