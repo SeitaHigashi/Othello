@@ -31,6 +31,8 @@ public class Othello extends JFrame implements  WindowListener {
 
     private Player nowPlayer;
 
+    private Disk lastDisk;
+
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
