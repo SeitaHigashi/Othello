@@ -37,12 +37,6 @@ public class Othello extends JFrame implements  WindowListener {
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
-        //this.blackPlayer = new Human(this, Disk.BLACK);
-        this.whitePlayer = new Human(this, Disk.WHITE);
-        //this.blackPlayer = new DemoAI(this, Disk.BLACK);
-        //this.whitePlayer = new DemoAI(this, Disk.WHITE);
-        this.blackPlayer = new LANGame(this, Disk.BLACK);
-        //this.whitePlayer = new LANGame(this, Disk.WHITE);
         init();
         new NewGame(this);
     }
@@ -66,17 +60,14 @@ public class Othello extends JFrame implements  WindowListener {
 
         setVisible(true);
         update();
-        this.blackPlayer.battle();
     }
 
     private void initOthelloBoard(){
         JPanel othelloBoard = new JPanel();
         othelloBoard.setLayout(new GridLayout( 8, 8));
-        this.nowPlayer = this.blackPlayer;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 diskViews[j][i] = new DiskView(new Coordinate(j, i));
-                diskViews[j][i].addMouseListener(this.blackPlayer);
                 othelloBoard.add(diskViews[j][i]);
                 Disk disk = this.board.getDisk(new Coordinate(j, i));
                 if(disk != null)
@@ -85,6 +76,14 @@ public class Othello extends JFrame implements  WindowListener {
         }
         this.othelloBoard = othelloBoard;
         add("Center", othelloBoard);
+    }
+
+    public void setBlackPlayer(Player player){
+        this.blackPlayer = player;
+    }
+
+    public void setWhitePlayer(Player player){
+        this.whitePlayer = player;
     }
 
     public int getTurn(){
@@ -112,6 +111,17 @@ public class Othello extends JFrame implements  WindowListener {
         getDiskView(coordinate).setDisk(disk);
         this.lastDisk = disk;
         return disk;
+    }
+
+    public void start(){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                diskViews[j][i].addMouseListener(this.blackPlayer);
+            }
+        }
+        this.nowPlayer = this.blackPlayer;
+        this.blackPlayer.battle();
+        this.update();
     }
 
     public void nextTurn(){
@@ -162,6 +172,7 @@ public class Othello extends JFrame implements  WindowListener {
             }
         }
         update();
+        new NewGame(this);
     }
 
     @Override
