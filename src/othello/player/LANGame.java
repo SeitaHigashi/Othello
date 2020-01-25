@@ -65,6 +65,7 @@ public class LANGame extends Player implements Runnable{
             this.othello.nextTurn();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
             objectOutputStream.writeObject(disk.coordinate);
+            System.out.println("Send:"+disk.coordinate.toString());
         } catch (CantPutException ex){
         } catch (IOException ex) {
             System.out.println("could not send");
@@ -101,26 +102,25 @@ public class LANGame extends Player implements Runnable{
     @Override
     public void run() {
         init();
-        ObjectInputStream objectInputStream = null;
-        try {
-            objectInputStream = new ObjectInputStream(this.socket.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         while(true){
             try {
+                ObjectInputStream objectInputStream = new ObjectInputStream((this.socket.getInputStream()));
                 Coordinate coordinate = (Coordinate)objectInputStream.readObject();
-                System.out.println(coordinate.toString());
-                if(this.othello.getTurn() != this.color)
-                    continue;
+                System.out.println("Recieve:"+coordinate.toString());
+                //if(this.othello.getTurn() != this.color)
+                    //continue;
                 Disk disk = this.othello.setDisk(coordinate);
                 this.othello.getDiskView(coordinate).setDisk(disk);
                 this.othello.update();
                 this.othello.nextTurn();
+                Thread.sleep(1000);
             } catch (IOException e) {
+                e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (CantPutException e) {
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
