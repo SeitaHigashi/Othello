@@ -36,7 +36,8 @@ public class LANGame extends Player implements Runnable{
                 break;
             case Disk.WHITE:
                 try {
-                    this.socket = new Socket("localhost", 8888);
+                    //this.socket = new Socket("localhost", 8888);
+                    this.socket = new Socket("192.168.100.18", 8888);
                     System.out.println("connect server");
                 } catch (IOException e) {
                     e.printStackTrace();
