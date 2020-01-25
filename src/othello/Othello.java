@@ -86,6 +86,10 @@ public class Othello extends JFrame implements  WindowListener {
         return this.turn;
     }
 
+    public Disk getLastDisk(){
+        return this.lastDisk;
+    }
+
     public DiskView getDiskView(Coordinate coordinate){
         return this.diskViews[coordinate.x][coordinate.y];
     }
@@ -93,6 +97,7 @@ public class Othello extends JFrame implements  WindowListener {
     public Disk setDisk(Coordinate coordinate) throws CantPutException {
         Disk disk = this.board.setDisk(coordinate, this.turn);
         getDiskView(coordinate).setDisk(disk);
+        this.lastDisk = disk;
         return disk;
     }
 
