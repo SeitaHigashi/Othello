@@ -65,19 +65,6 @@ public class LANGame extends Player implements Runnable{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-//        DiskView diskView = (DiskView)e.getSource();
-//        try{
-//            Disk disk = this.othello.setDisk(diskView.coordinate);
-//            diskView.setDisk(disk);
-//            this.othello.update();
-//            this.othello.nextTurn();
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
-//            objectOutputStream.writeObject(disk.coordinate);
-//            System.out.println("Send:"+disk.coordinate.toString());
-//        } catch (CantPutException ex){
-//        } catch (IOException ex) {
-//            System.out.println("could not send");
-//        }
     }
 
     @Override
@@ -92,18 +79,10 @@ public class LANGame extends Player implements Runnable{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-//        DiskView diskView = (DiskView)e.getSource();
-//        if(this.othello.board.canPut(diskView.coordinate, this.othello.getTurn())){
-//            diskView.mouseEntered();
-//        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-//        DiskView diskView = (DiskView)e.getSource();
-//        if(this.othello.board.canPut(diskView.coordinate, this.othello.getTurn())){
-//            diskView.mouseExited();
-//        }
 
     }
 
@@ -113,10 +92,11 @@ public class LANGame extends Player implements Runnable{
         while(true){
             try {
                 ObjectInputStream objectInputStream = new ObjectInputStream((this.socket.getInputStream()));
-                Coordinate coordinate = (Coordinate)objectInputStream.readObject();
+                //Coordinate coordinate = (Coordinate)objectInputStream.readObject();
+                Object object = objectInputStream.readObject();
+                if(object instanceof Coordinate) System.out.println("Coordinate");
+                Coordinate coordinate = (Coordinate) object;
                 System.out.println("Recieve:"+coordinate.toString());
-                //if(this.othello.getTurn() != this.color)
-                    //continue;
                 Disk disk = this.othello.setDisk(coordinate);
                 this.othello.getDiskView(coordinate).setDisk(disk);
                 this.othello.update();

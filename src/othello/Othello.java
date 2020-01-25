@@ -7,6 +7,7 @@ import othello.player.LANGame;
 import othello.player.Player;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
+import othello.view.NewGame;
 import othello.view.ResetButton;
 
 import javax.swing.*;
@@ -36,13 +37,8 @@ public class Othello extends JFrame implements  WindowListener {
     public Othello(){
         this.board = new Board();
         this.board.setOthello(this);
-        //this.blackPlayer = new Human(this, Disk.BLACK);
-        this.whitePlayer = new Human(this, Disk.WHITE);
-        //this.blackPlayer = new DemoAI(this, Disk.BLACK);
-        //this.whitePlayer = new DemoAI(this, Disk.WHITE);
-        this.blackPlayer = new LANGame(this, Disk.BLACK);
-        //this.whitePlayer = new LANGame(this, Disk.WHITE);
         init();
+        new NewGame(this);
     }
 
     public static void main(String[] args){
@@ -64,17 +60,14 @@ public class Othello extends JFrame implements  WindowListener {
 
         setVisible(true);
         update();
-        this.blackPlayer.battle();
     }
 
     private void initOthelloBoard(){
         JPanel othelloBoard = new JPanel();
         othelloBoard.setLayout(new GridLayout( 8, 8));
-        this.nowPlayer = this.blackPlayer;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 diskViews[j][i] = new DiskView(new Coordinate(j, i));
-                diskViews[j][i].addMouseListener(this.blackPlayer);
                 othelloBoard.add(diskViews[j][i]);
                 Disk disk = this.board.getDisk(new Coordinate(j, i));
                 if(disk != null)
@@ -85,12 +78,28 @@ public class Othello extends JFrame implements  WindowListener {
         add("Center", othelloBoard);
     }
 
+    public void setBlackPlayer(Player player){
+        this.blackPlayer = player;
+    }
+
+    public void setWhitePlayer(Player player){
+        this.whitePlayer = player;
+    }
+
     public int getTurn(){
         return this.turn;
     }
 
     public Disk getLastDisk(){
         return this.lastDisk;
+    }
+
+    public Player getNowPlayer(){
+        return this.nowPlayer;
+    }
+
+    public Player getNextPlayer(){
+        return (this.nowPlayer == this.blackPlayer)?this.whitePlayer:this.blackPlayer;
     }
 
     public DiskView getDiskView(Coordinate coordinate){
@@ -104,15 +113,26 @@ public class Othello extends JFrame implements  WindowListener {
         return disk;
     }
 
-    public void nextTurn(){
-        turn *= -1;
-        nowPlayer = (nowPlayer == blackPlayer)?whitePlayer:blackPlayer;
-        for(DiskView[] diskViews: this.diskViews){
-            for(DiskView diskView:diskViews){
-                diskView.removeMouseListener(nowPlayer);
-                diskView.addMouseListener(nowPlayer);
+    public void start(){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                diskViews[j][i].addMouseListener(this.blackPlayer);
             }
         }
+        this.nowPlayer = this.blackPlayer;
+        this.blackPlayer.battle();
+        this.update();
+    }
+
+    public void nextTurn(){
+        turn *= -1;
+        for(DiskView[] diskViews: this.diskViews){
+            for(DiskView diskView: diskViews){
+                diskView.removeMouseListener(getNowPlayer());
+                diskView.addMouseListener(getNextPlayer());
+            }
+        }
+        nowPlayer = getNextPlayer();
         boolean playerCanPut = this.board.canPut(this.turn);
         boolean enemyCanPut = this.board.canPut(-this.turn);
         if(!playerCanPut && !enemyCanPut){
@@ -152,6 +172,7 @@ public class Othello extends JFrame implements  WindowListener {
             }
         }
         update();
+        new NewGame(this);
     }
 
     @Override
@@ -166,7 +187,7 @@ public class Othello extends JFrame implements  WindowListener {
 
     @Override
     public void windowClosed(WindowEvent e) {
-        System.exit(1);
+        System.exit(0);
     }
 
     @Override
