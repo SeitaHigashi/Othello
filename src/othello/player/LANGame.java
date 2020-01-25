@@ -12,8 +12,10 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class LANGame extends Player implements Runnable{
     private Socket socket;
@@ -24,6 +26,15 @@ public class LANGame extends Player implements Runnable{
         super(othello, color);
         if(color == Disk.BLACK){
             Thread thread = new Thread(this);
+            try {
+                JOptionPane.showMessageDialog(
+                        this.othello,
+                        "IPアドレス:"+InetAddress.getLocalHost().getHostAddress(),
+                        "IPアドレス情報",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
             thread.start();
         }
         else{
@@ -116,9 +127,9 @@ public class LANGame extends Player implements Runnable{
                 this.othello.nextTurn();
                 Thread.sleep(1000);
             } catch (IOException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(this.othello, "サーバと接続が切れました");
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(this.othello, "不明なエラーが発生しました");
             } catch (CantPutException e) {
             } catch (InterruptedException e) {
                 e.printStackTrace();
