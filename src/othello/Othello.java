@@ -7,6 +7,7 @@ import othello.player.LANGame;
 import othello.player.Player;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
+import othello.view.NewGame;
 import othello.view.ResetButton;
 
 import javax.swing.*;
@@ -43,6 +44,7 @@ public class Othello extends JFrame implements  WindowListener {
         this.blackPlayer = new LANGame(this, Disk.BLACK);
         //this.whitePlayer = new LANGame(this, Disk.WHITE);
         init();
+        new NewGame(this);
     }
 
     public static void main(String[] args){
@@ -93,6 +95,14 @@ public class Othello extends JFrame implements  WindowListener {
         return this.lastDisk;
     }
 
+    public Player getNowPlayer(){
+        return this.nowPlayer;
+    }
+
+    public Player getNextPlayer(){
+        return (this.nowPlayer == this.blackPlayer)?this.whitePlayer:this.blackPlayer;
+    }
+
     public DiskView getDiskView(Coordinate coordinate){
         return this.diskViews[coordinate.x][coordinate.y];
     }
@@ -106,13 +116,13 @@ public class Othello extends JFrame implements  WindowListener {
 
     public void nextTurn(){
         turn *= -1;
-        nowPlayer = (nowPlayer == blackPlayer)?whitePlayer:blackPlayer;
         for(DiskView[] diskViews: this.diskViews){
-            for(DiskView diskView:diskViews){
-                diskView.removeMouseListener(nowPlayer);
-                diskView.addMouseListener(nowPlayer);
+            for(DiskView diskView: diskViews){
+                diskView.removeMouseListener(getNowPlayer());
+                diskView.addMouseListener(getNextPlayer());
             }
         }
+        nowPlayer = getNextPlayer();
         boolean playerCanPut = this.board.canPut(this.turn);
         boolean enemyCanPut = this.board.canPut(-this.turn);
         if(!playerCanPut && !enemyCanPut){
@@ -166,7 +176,7 @@ public class Othello extends JFrame implements  WindowListener {
 
     @Override
     public void windowClosed(WindowEvent e) {
-        System.exit(1);
+        System.exit(0);
     }
 
     @Override
