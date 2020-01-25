@@ -5,6 +5,7 @@ import othello.Othello;
 import othello.exception.CantPutException;
 import othello.utils.Coordinate;
 import othello.view.DiskView;
+import othello.view.LANGameSetting;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -17,10 +18,17 @@ import java.net.Socket;
 public class LANGame extends Player implements Runnable{
     private Socket socket;
 
+    private String serverAddress = "localhost";
+
     public LANGame(Othello othello, int color) {
         super(othello, color);
-        Thread thread = new Thread(this);
-        thread.start();
+        if(color == Disk.BLACK){
+            Thread thread = new Thread(this);
+            thread.start();
+        }
+        else{
+            new LANGameSetting(this);
+        }
     }
 
     private void init(){
@@ -36,13 +44,18 @@ public class LANGame extends Player implements Runnable{
                 break;
             case Disk.WHITE:
                 try {
-                    this.socket = new Socket("localhost", 8888);
+                    this.socket = new Socket(this.serverAddress, 8888);
                     System.out.println("connect server");
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this.othello, "サーバと接続できませんでした");
+                    new LANGameSetting(this);
                 }
                 break;
         }
+    }
+
+    public void setServerAddress(String address){
+        this.serverAddress = address;
     }
 
     @Override
