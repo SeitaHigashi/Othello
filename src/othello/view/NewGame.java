@@ -21,7 +21,7 @@ public class NewGame extends JFrame implements ActionListener {
 
     private JButton startButton;
 
-    public NewGame(Othello othello){
+    public NewGame(Othello othello) {
         this.othello = othello;
         this.blackBox = new JComboBox();
         this.whiteBox = new JComboBox();
@@ -33,9 +33,9 @@ public class NewGame extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    private void initFrame(){
+    private void initFrame() {
         setSize(300, 150);
-        setLayout(new GridLayout(3,2));
+        setLayout(new GridLayout(3, 2));
 
         initComboBox();
 
@@ -46,12 +46,11 @@ public class NewGame extends JFrame implements ActionListener {
         add(new JPanel());
         add(this.startButton);
 
-
     }
 
-    private void initComboBox(){
+    private void initComboBox() {
         String[] select = {"プレイヤー", "BOT", "LAN対戦者"};
-        for(String str : select){
+        for (String str : select) {
             this.blackBox.addItem(str);
             this.whiteBox.addItem(str);
         }
@@ -60,7 +59,7 @@ public class NewGame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Player blackPlayer;
-        switch (this.blackBox.getSelectedIndex()){
+        switch (this.blackBox.getSelectedIndex()) {
             case 0:
                 blackPlayer = new Human(othello, Disk.BLACK);
                 break;
@@ -70,10 +69,11 @@ public class NewGame extends JFrame implements ActionListener {
             case 2:
                 blackPlayer = new LANGame(othello, Disk.BLACK);
                 break;
-            default: return;
+            default:
+                return;
         }
         Player whitePlayer;
-        switch (this.whiteBox.getSelectedIndex()){
+        switch (this.whiteBox.getSelectedIndex()) {
             case 0:
                 whitePlayer = new Human(othello, Disk.WHITE);
                 break;
@@ -83,7 +83,8 @@ public class NewGame extends JFrame implements ActionListener {
             case 2:
                 whitePlayer = new LANGame(othello, Disk.WHITE);
                 break;
-            default: return;
+            default:
+                return;
         }
         othello.setBlackPlayer(blackPlayer);
         othello.setWhitePlayer(whitePlayer);

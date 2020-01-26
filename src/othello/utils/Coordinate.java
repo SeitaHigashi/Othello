@@ -7,22 +7,22 @@ public class Coordinate implements Serializable {
     public int x;
     public int y;
 
-    public Coordinate(int x, int y){
+    public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public Coordinate shift(Arrow arrow){
+    public Coordinate shift(Arrow arrow) {
         return new Coordinate(this.x + arrow.x, this.y + arrow.y);
     }
 
-    public boolean equals(Coordinate coordinate){
+    public boolean equals(Coordinate coordinate) {
         return coordinate.x == this.x && coordinate.y == this.y;
     }
 
     @Override
-    public String toString(){
-        return "("+this.x+","+this.y+")";
+    public String toString() {
+        return "(" + this.x + "," + this.y + ")";
     }
 
 }

@@ -7,7 +7,7 @@ import othello.view.DiskView;
 
 import java.awt.event.MouseEvent;
 
-public class Human extends Player{
+public class Human extends Player {
     public Human(Othello othello, int color) {
         super(othello, color);
     }
@@ -24,7 +24,7 @@ public class Human extends Player{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        DiskView diskView = (DiskView)e.getSource();
+        DiskView diskView = (DiskView) e.getSource();
         try {
             Disk disk = this.othello.setDisk(diskView.coordinate);
             diskView.setDisk(disk);
@@ -46,16 +46,16 @@ public class Human extends Player{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        DiskView diskView = (DiskView)e.getSource();
-        if(this.othello.board.canPut(diskView.coordinate, this.othello.getTurn())){
+        DiskView diskView = (DiskView) e.getSource();
+        if (this.othello.board.canPut(diskView.coordinate, this.othello.getTurn())) {
             diskView.mouseEntered();
         }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        DiskView diskView = (DiskView)e.getSource();
-        if(this.othello.board.canPut(diskView.coordinate, this.othello.getTurn())){
+        DiskView diskView = (DiskView) e.getSource();
+        if (this.othello.board.canPut(diskView.coordinate, this.othello.getTurn())) {
             diskView.mouseExited();
         }
     }

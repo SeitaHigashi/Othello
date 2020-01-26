@@ -4,7 +4,7 @@ import othello.exception.CantPutException;
 import othello.utils.Coordinate;
 
 public class Test {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Board board = new Board();
 
         board.printBoard();

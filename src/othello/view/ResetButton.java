@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 public class ResetButton extends JButton implements ActionListener {
     private Othello othello;
 
-    public ResetButton(Othello othello){
+    public ResetButton(Othello othello) {
         super("Reset");
         this.othello = othello;
         this.addActionListener(this);

@@ -17,33 +17,32 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class LANGame extends Player implements Runnable{
+public class LANGame extends Player implements Runnable {
     private Socket socket;
 
     private String serverAddress = "localhost";
 
     public LANGame(Othello othello, int color) {
         super(othello, color);
-        if(color == Disk.BLACK){
+        if (color == Disk.BLACK) {
             Thread thread = new Thread(this);
             thread.start();
             try {
                 JOptionPane.showMessageDialog(
                         this.othello,
-                        "IPアドレス:"+InetAddress.getLocalHost().getHostAddress(),
+                        "IPアドレス:" + InetAddress.getLocalHost().getHostAddress(),
                         "IPアドレス情報",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
-        }
-        else{
+        } else {
             new LANGameSetting(this);
         }
     }
 
-    private void init(){
-        switch (this.color){
+    private void init() {
+        switch (this.color) {
             case Disk.BLACK:
                 try {
                     ServerSocket serverSocket = new ServerSocket(8888);
@@ -65,7 +64,7 @@ public class LANGame extends Player implements Runnable{
         }
     }
 
-    public void setServerAddress(String address){
+    public void setServerAddress(String address) {
         this.serverAddress = address;
     }
 
@@ -75,10 +74,10 @@ public class LANGame extends Player implements Runnable{
             Disk disk = this.othello.getLastDisk();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
             objectOutputStream.writeObject(disk.coordinate);
-            System.out.println("Send:"+disk.coordinate.toString());
+            System.out.println("Send:" + disk.coordinate.toString());
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
         }
     }
 
@@ -144,8 +143,8 @@ public class LANGame extends Player implements Runnable{
         }
     }
 
-    private boolean commandHelper(Coordinate coordinate){
-        if(coordinate.equals(LANGameMessage.RESET)){
+    private boolean commandHelper(Coordinate coordinate) {
+        if (coordinate.equals(LANGameMessage.RESET)) {
             try {
                 this.socket.close();
                 System.out.printf("Close");
@@ -154,8 +153,7 @@ public class LANGame extends Player implements Runnable{
             }
             this.othello.reset();
             return true;
-        }
-        else
+        } else
             return false;
     }
 }

@@ -13,10 +13,10 @@ public class DemoAI extends Player {
 
     @Override
     public void battle() {
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 Coordinate coordinate = new Coordinate(j, i);
-                if(this.othello.board.canPut(coordinate, this.othello.getTurn())){
+                if (this.othello.board.canPut(coordinate, this.othello.getTurn())) {
                     try {
                         this.othello.setDisk(coordinate);
                         this.othello.update();
