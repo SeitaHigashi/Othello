@@ -59,9 +59,7 @@ public class NewGame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("action");
         Player blackPlayer;
-        System.out.println(this.blackBox.getSelectedIndex());
         switch (this.blackBox.getSelectedIndex()){
             case 0:
                 blackPlayer = new Human(othello, Disk.BLACK);

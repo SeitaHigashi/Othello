@@ -156,6 +156,7 @@ public class Othello extends JFrame implements  WindowListener {
     }
 
     public void reset(){
+        this.turn = Disk.BLACK;
         this.board.reset();
         this.blackPlayer.reset();
         this.whitePlayer.reset();
@@ -166,6 +167,7 @@ public class Othello extends JFrame implements  WindowListener {
                     diskView.setDisk(this.board.getDisk(diskView.coordinate));
                 }catch (NullPointerException e){
                 }
+                diskView.removeMouseListener(nowPlayer);
             }
         }
         update();
