@@ -26,6 +26,7 @@ public class LANGame extends Player implements Runnable{
         super(othello, color);
         if(color == Disk.BLACK){
             Thread thread = new Thread(this);
+            thread.start();
             try {
                 JOptionPane.showMessageDialog(
                         this.othello,
@@ -35,7 +36,6 @@ public class LANGame extends Player implements Runnable{
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
-            thread.start();
         }
         else{
             new LANGameSetting(this);
@@ -117,35 +117,37 @@ public class LANGame extends Player implements Runnable{
     @Override
     public void run() {
         init();
-        while(true){
-            try {
-                ObjectInputStream objectInputStream = new ObjectInputStream((this.socket.getInputStream()));
-                Coordinate coordinate = (Coordinate)objectInputStream.readObject();
-                System.out.println("Recieve:"+coordinate.toString());
-                if(commandHelper(coordinate))
-                    return;
-                Disk disk = this.othello.setDisk(coordinate);
-                this.othello.getDiskView(coordinate).setDisk(disk);
-                this.othello.update();
-                this.othello.nextTurn();
-                Thread.sleep(1000);
-            } catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this.othello, "サーバと接続が切れました");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this.othello, "不明なエラーが発生しました");
-            } catch (CantPutException e) {
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            while (true) {
+                try {
+                    ObjectInputStream objectInputStream = new ObjectInputStream((this.socket.getInputStream()));
+                    Coordinate coordinate = (Coordinate) objectInputStream.readObject();
+                    System.out.println("Recieve:" + coordinate.toString());
+                    if (commandHelper(coordinate))
+                        return;
+                    Disk disk = this.othello.setDisk(coordinate);
+                    this.othello.getDiskView(coordinate).setDisk(disk);
+                    this.othello.update();
+                    this.othello.nextTurn();
+                    Thread.sleep(1000);
+                } catch (CantPutException e) {
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this.othello, "接続が切れました");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this.othello, "不明なエラーが発生しました");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
     private boolean commandHelper(Coordinate coordinate){
         if(coordinate.equals(LANGameMessage.RESET)){
             try {
-                socket.close();
+                this.socket.close();
                 System.out.printf("Close");
             } catch (IOException e) {
                 e.printStackTrace();
