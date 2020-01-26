@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 public class ResetButton extends JButton implements ActionListener {
     private Othello othello;
 
-    public ResetButton(Othello othello){
-        super("Reset");
+    public ResetButton(Othello othello) {
+        super("Reset(新規ゲーム)");
         this.othello = othello;
         this.addActionListener(this);
     }

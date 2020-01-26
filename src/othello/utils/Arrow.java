@@ -13,7 +13,7 @@ public enum Arrow {
     public int x;
     public int y;
 
-    Arrow(int x, int y){
+    Arrow(int x, int y) {
         this.x = x;
         this.y = y;
     }

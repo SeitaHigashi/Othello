@@ -10,7 +10,7 @@ public abstract class Player implements MouseListener {
 
     protected int color;
 
-    public Player(Othello othello, int color){
+    public Player(Othello othello, int color) {
         this.othello = othello;
         this.color = color;
     }

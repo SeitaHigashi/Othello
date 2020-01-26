@@ -1,4 +1,4 @@
-package othello.view;
+package othello.player.lanGame;
 
 import othello.player.LANGame;
 
@@ -16,14 +16,14 @@ public class LANGameSetting extends JFrame implements ActionListener {
 
     private static String lastAddress = "";
 
-    public LANGameSetting(LANGame lanGame){
+    public LANGameSetting(LANGame lanGame) {
         this.lanGame = lanGame;
         this.jTextField = new JTextField(LANGameSetting.lastAddress);
         this.acceptButton = new JButton("Accept");
         this.acceptButton.addActionListener(this);
 
         setSize(300, 100);
-        setLayout(new GridLayout(2,2));
+        setLayout(new GridLayout(2, 2));
 
         add(new JLabel("相手IPアドレス:", JLabel.RIGHT));
         add(jTextField);

@@ -3,9 +3,9 @@ package othello.player;
 import othello.Disk;
 import othello.Othello;
 import othello.exception.CantPutException;
+import othello.player.lanGame.LANGameMessage;
+import othello.player.lanGame.LANGameSetting;
 import othello.utils.Coordinate;
-import othello.view.DiskView;
-import othello.view.LANGameSetting;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -17,33 +17,32 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class LANGame extends Player implements Runnable{
+public class LANGame extends Player implements Runnable {
     private Socket socket;
 
     private String serverAddress = "localhost";
 
     public LANGame(Othello othello, int color) {
         super(othello, color);
-        if(color == Disk.BLACK){
+        if (color == Disk.BLACK) {
             Thread thread = new Thread(this);
+            thread.start();
             try {
                 JOptionPane.showMessageDialog(
                         this.othello,
-                        "IPアドレス:"+InetAddress.getLocalHost().getHostAddress(),
+                        "IPアドレス:" + InetAddress.getLocalHost().getHostAddress(),
                         "IPアドレス情報",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
-            thread.start();
-        }
-        else{
+        } else {
             new LANGameSetting(this);
         }
     }
 
-    private void init(){
-        switch (this.color){
+    private void init() {
+        switch (this.color) {
             case Disk.BLACK:
                 try {
                     ServerSocket serverSocket = new ServerSocket(8888);
@@ -65,7 +64,7 @@ public class LANGame extends Player implements Runnable{
         }
     }
 
-    public void setServerAddress(String address){
+    public void setServerAddress(String address) {
         this.serverAddress = address;
     }
 
@@ -75,16 +74,20 @@ public class LANGame extends Player implements Runnable{
             Disk disk = this.othello.getLastDisk();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
             objectOutputStream.writeObject(disk.coordinate);
-            System.out.println("Send:"+disk.coordinate.toString());
+            System.out.println("Send:" + disk.coordinate.toString());
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
         }
     }
 
     @Override
     public void reset() {
-
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
+            objectOutputStream.writeObject(LANGameMessage.RESET);
+        } catch (IOException e) {
+        }
     }
 
     @Override
@@ -113,27 +116,44 @@ public class LANGame extends Player implements Runnable{
     @Override
     public void run() {
         init();
-        while(true){
+        try {
+            while (true) {
+                try {
+                    ObjectInputStream objectInputStream = new ObjectInputStream((this.socket.getInputStream()));
+                    Coordinate coordinate = (Coordinate) objectInputStream.readObject();
+                    System.out.println("Recieve:" + coordinate.toString());
+                    if (commandHelper(coordinate))
+                        return;
+                    Disk disk = this.othello.setDisk(coordinate);
+                    this.othello.getDiskView(coordinate).setDisk(disk);
+                    this.othello.update();
+                    this.othello.nextTurn();
+                    Thread.sleep(1000);
+                } catch (CantPutException e) {
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this.othello, "接続が切れました");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this.othello, "不明なエラーが発生しました");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean commandHelper(Coordinate coordinate) {
+        if (coordinate.equals(LANGameMessage.RESET)) {
             try {
-                ObjectInputStream objectInputStream = new ObjectInputStream((this.socket.getInputStream()));
-                //Coordinate coordinate = (Coordinate)objectInputStream.readObject();
-                Object object = objectInputStream.readObject();
-                if(object instanceof Coordinate) System.out.println("Coordinate");
-                Coordinate coordinate = (Coordinate) object;
-                System.out.println("Recieve:"+coordinate.toString());
-                Disk disk = this.othello.setDisk(coordinate);
-                this.othello.getDiskView(coordinate).setDisk(disk);
-                this.othello.update();
-                this.othello.nextTurn();
-                Thread.sleep(1000);
+                this.socket.close();
+                System.out.printf("Close");
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(this.othello, "サーバと接続が切れました");
-            } catch (ClassNotFoundException e) {
-                JOptionPane.showMessageDialog(this.othello, "不明なエラーが発生しました");
-            } catch (CantPutException e) {
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+            this.othello.reset();
+            return true;
+        } else
+            return false;
     }
 }
