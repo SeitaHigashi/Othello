@@ -1,4 +1,4 @@
-package othello.view;
+package othello.player.lanGame;
 
 import othello.player.LANGame;
 

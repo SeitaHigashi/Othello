@@ -16,8 +16,13 @@ public class Coordinate implements Serializable {
         return new Coordinate(this.x + arrow.x, this.y + arrow.y);
     }
 
+    public boolean equals(Coordinate coordinate){
+        return coordinate.x == this.x && coordinate.y == this.y;
+    }
+
     @Override
     public String toString(){
         return "("+this.x+","+this.y+")";
     }
+
 }

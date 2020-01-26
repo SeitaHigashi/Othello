@@ -3,9 +3,9 @@ package othello.player;
 import othello.Disk;
 import othello.Othello;
 import othello.exception.CantPutException;
+import othello.player.lanGame.LANGameMessage;
+import othello.player.lanGame.LANGameSetting;
 import othello.utils.Coordinate;
-import othello.view.DiskView;
-import othello.view.LANGameSetting;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -84,7 +84,11 @@ public class LANGame extends Player implements Runnable{
 
     @Override
     public void reset() {
-
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
+            objectOutputStream.writeObject(LANGameMessage.RESET);
+        } catch (IOException e) {
+        }
     }
 
     @Override
@@ -116,24 +120,40 @@ public class LANGame extends Player implements Runnable{
         while(true){
             try {
                 ObjectInputStream objectInputStream = new ObjectInputStream((this.socket.getInputStream()));
-                //Coordinate coordinate = (Coordinate)objectInputStream.readObject();
-                Object object = objectInputStream.readObject();
-                if(object instanceof Coordinate) System.out.println("Coordinate");
-                Coordinate coordinate = (Coordinate) object;
+                Coordinate coordinate = (Coordinate)objectInputStream.readObject();
                 System.out.println("Recieve:"+coordinate.toString());
+                if(commandHelper(coordinate))
+                    return;
                 Disk disk = this.othello.setDisk(coordinate);
                 this.othello.getDiskView(coordinate).setDisk(disk);
                 this.othello.update();
                 this.othello.nextTurn();
                 Thread.sleep(1000);
             } catch (IOException e) {
+                e.printStackTrace();
                 JOptionPane.showMessageDialog(this.othello, "サーバと接続が切れました");
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
                 JOptionPane.showMessageDialog(this.othello, "不明なエラーが発生しました");
             } catch (CantPutException e) {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private boolean commandHelper(Coordinate coordinate){
+        if(coordinate.equals(LANGameMessage.RESET)){
+            try {
+                socket.close();
+                System.out.printf("Close");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.othello.reset();
+            return true;
+        }
+        else
+            return false;
     }
 }
