@@ -67,29 +67,43 @@ public class Board {
         }
     }
 
-    public boolean canPut(int state) {
+    public int count(int color) {
+        int i = 0;
+        for (Disk[] disks : board) {
+            for (Disk disk : disks) {
+                try {
+                    if (disk.state == color)
+                        i++;
+                } catch (NullPointerException e) {
+                }
+            }
+        }
+        return i;
+    }
+
+    public boolean canPut(int color) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Coordinate coordinate = new Coordinate(i, j);
-                if (canPut(coordinate, state))
+                if (canPut(coordinate, color))
                     return true;
             }
         }
         return false;
     }
 
-    public boolean canPut(Coordinate coordinate, int state) {
+    public boolean canPut(Coordinate coordinate, int color) {
         if (getDisk(coordinate) != null)
             return false;
         for (Arrow arrow : Arrow.values()) {
             try {
                 Coordinate shiftCoordinate = coordinate.shift(arrow);
                 Disk disk = this.getDisk(shiftCoordinate);
-                if (disk.state != state)
+                if (disk.state != color)
                     while (true) {
                         shiftCoordinate = shiftCoordinate.shift(arrow);
                         disk = this.getDisk(shiftCoordinate);
-                        if (disk.state == state)
+                        if (disk.state == color)
                             return true;
                     }
             } catch (Exception e) {

@@ -133,7 +133,7 @@ public class Othello extends JFrame implements WindowListener {
         boolean playerCanPut = this.board.canPut(this.turn);
         boolean enemyCanPut = this.board.canPut(-this.turn);
         if (!playerCanPut && !enemyCanPut)
-            System.out.println("finished");
+            finish();
         else if (playerCanPut)
             nowPlayer.battle();
         else
@@ -170,6 +170,18 @@ public class Othello extends JFrame implements WindowListener {
         }
         update();
         new NewGame(this);
+    }
+
+    public void finish() {
+        int black = this.board.count(Disk.BLACK);
+        int white = this.board.count(Disk.WHITE);
+        String winner = (black == white) ? "引き分け" : (black < white) ? "白の勝ち" : "黒の勝ち";
+        JOptionPane.showMessageDialog(
+                this,
+                "黒:" + black + "\n白:" + white,
+                winner,
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     @Override

@@ -10,7 +10,7 @@ public class ResetButton extends JButton implements ActionListener {
     private Othello othello;
 
     public ResetButton(Othello othello) {
-        super("Reset");
+        super("Reset(新規ゲーム)");
         this.othello = othello;
         this.addActionListener(this);
     }
