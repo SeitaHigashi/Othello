@@ -51,6 +51,7 @@ public class Othello extends JFrame implements WindowListener {
 
         setSize(400, 400);
         setTitle("Othello");
+        addWindowListener(this);
         setLayout(new BorderLayout());
         add("South", new ResetButton(this));
         initOthelloBoard();
@@ -191,12 +192,11 @@ public class Othello extends JFrame implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-
+        System.exit(0);
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
-        System.exit(0);
     }
 
     @Override
